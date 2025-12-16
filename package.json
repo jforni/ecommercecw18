@@ -1,0 +1,32 @@
+{
+  "name": "ecommercecw18",
+  "version": "0.0.1",
+  "description": "Proyecto de backend para un ecommerce genérico",
+  "homepage": "https://github.com/jforni/ecommercecw18#readme",
+  "bugs": {
+    "url": "https://github.com/jforni/ecommercecw18/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jforni/ecommercecw18.git"
+  },
+  "license": "MIT",
+  "author": "comisionweb18",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch --env-file=.env index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.0.1"
+  }
+}
