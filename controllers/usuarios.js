@@ -2,6 +2,33 @@ const { response, request } = require('express');
 const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuario');
 
+const usuariosGet = async ( req=request, res=response) => {
+    const {desde=0, limite=5} = req.query;
+    const query = {estado: true};
+
+    const [total, usuarios] = await Promise.all([
+        Usuario.countDocuments(query),
+        Usuario.find(query).skip(desde).limit(limite)
+    ]);
+
+    res.json({
+        mensaje: "Usuarios obtenidos",
+        total,
+        usuarios
+    });
+}
+
+const usuarioGetID = async (req=request, res=response) => {
+    const {id} = req.params;
+
+    const usuario = await Usuario.findById(id);
+
+    res.json({
+        mensaje: "Usuario obtenido",
+        usuario
+    })
+}
+
 const usuarioPost = async (req=request, res=response) => {
     //Recibir el cuerpo de la petición
     const datos = req.body;
@@ -10,7 +37,9 @@ const usuarioPost = async (req=request, res=response) => {
     const usuario = new Usuario({nombre, apellido, correo, password, rol});
 
     //Encriptar la contraseña
-
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    usuario.password = hash;
 
     //Guardar los datos en la BD
     await usuario.save();
@@ -21,6 +50,33 @@ const usuarioPost = async (req=request, res=response) => {
     })
 }
 
+const usuarioPut = async(req=request, res=response) => {
+    const {id} =req.params;
+
+    //Obtener datos del usuario a actualizar
+    const {password, correo, ...resto} = req.body;
+
+    //Si atualiza el password, debo encriptarlo
+    if(password){
+        const salt = bcrypt.genSaltSync(10);
+        resto.password = bcrypt.hashSync(password, salt);
+    }
+
+    //Modificación de datos
+    resto.correo = correo;
+
+    //Buscar el usuario y actualizarlo
+    const usuario = await Usuario.findByIdAndUpdate(id, resto, {new: true});
+
+    res.json({
+        mensaje: "Usuario actualizado correctamente!",
+        usuario
+    })
+}
+
 module.exports = {
+    usuariosGet,
+    usuarioGetID,
     usuarioPost,
+    usuarioPut
 }
