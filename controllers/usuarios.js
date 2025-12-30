@@ -74,9 +74,53 @@ const usuarioPut = async(req=request, res=response) => {
     })
 }
 
+const usuarioInhabilitado = async (req=request, res=response) => {
+    const {id} = req.params;
+
+    try {
+        const usuarioDeshabilitado = await Usuario.findByIdAndUpdate(id, {estado: false}, {new:true});
+
+        res.status(200).json({
+            mensaje: 'El usuario ha sido deshabilitado correctamente',
+            usuarioDeshabilitado
+        })
+    } catch (error) {
+        res.status(500).json({
+            mensaje: 'Error al procesar la solicitud'
+        })
+    }
+}
+
+const usuarioDelete = async (req=request, res=response) => {
+    const {id} = req.params;
+
+    //Eliminación del documento físicamente
+    const usuarioBorrado = await Usuario.findByIdAndDelete(id);
+
+    //Eliminación lógica del documento
+    /* const usuario = await Usuario.findById(id);
+
+    if(!usuario.estado){
+        return res.json({
+            mensaje: "Usuario no existe!",
+        })
+    }
+
+    const usuarioInhabilitado = await Usuario.findByIdAndUpdate(id, {estado:false}, {new:true}); */
+
+    res.json({
+        mensaje: 'Usuario eliminado exitosamente!',
+        usuarioBorrado
+        /* mensaje: 'Usuario inhabilitado exitosamente',
+        usuarioInhabilitado */
+    })
+}
+
 module.exports = {
     usuariosGet,
     usuarioGetID,
     usuarioPost,
-    usuarioPut
+    usuarioPut,
+    usuarioInhabilitado,
+    usuarioDelete
 }
