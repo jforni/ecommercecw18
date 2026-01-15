@@ -77,15 +77,41 @@ const categoriaPut = async (req=request, res=response) => {
     })
 }
 
+const habilitarCategoria = async (req=request, res=response) => {
+    const {id} = req.params;
+
+    try {
+        const categoriaHabilitada = await Categoria.findByIdAndUpdate(id, {estado: true}, {new:true});
+
+        res.status(200).json({
+            mensaje: 'La categoría ha sido habilitada correctamente',
+            categoriaHabilitada
+        })
+    } catch (error) {
+        res.status(500).json({
+            mensaje: 'Error al procesar la solicitud'
+        })
+    }
+}
+
 const categoriaInhabilitada = async (req=request, res=response) => {
     const {id} = req.params;
 
     try {
-        const categoriaDeshabilitada = await Categoria.findByIdAndUpdate(id, {estado: false}, {new:true});
+        const categoria = await Categoria.findById(id);
+
+        if (!categoria) {
+            return res.status(404).json({ mensaje: "Categoria no encontrado" });
+        }
+
+        categoria.estado = !categoria.estado;
+        await categoria.save();
+
+        /* const categoriaDeshabilitada = await Categoria.findByIdAndUpdate(id, {estado: false}, {new:true}); */
 
         res.status(200).json({
             mensaje: 'La categoría ha sido deshabilitada correctamente',
-            categoriaDeshabilitada
+            categoria
         })
     } catch (error) {
         res.status(500).json({
