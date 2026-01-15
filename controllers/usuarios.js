@@ -92,13 +92,6 @@ const usuarioInhabilitado = async (req = request, res = response) => {
             usuario
         });
 
-        /* const usuarioDeshabilitado = await Usuario.findByIdAndUpdate(id, {estado: true}, { new: true });
-
-            res.status(200).json({
-                mensaje: 'El usuario ha sido deshabilitado correctamente',
-                usuarioDeshabilitado
-            }) */
-
     } catch (error) {
         res.status(500).json({
             mensaje: 'Error al procesar la solicitud'

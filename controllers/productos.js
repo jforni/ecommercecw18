@@ -153,8 +153,6 @@ const productoInhabilitado = async (req=request, res=response) => {
         producto.estado = !producto.estado;
         await producto.save();
 
-        /* const productoDeshabilitado = await Producto.findByIdAndUpdate(id, {estado: false}, {new:true}); */
-
         res.status(200).json({
             mensaje: 'El producto ha sido deshabilitado correctamente',
             producto

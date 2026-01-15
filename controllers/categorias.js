@@ -107,8 +107,6 @@ const categoriaInhabilitada = async (req=request, res=response) => {
         categoria.estado = !categoria.estado;
         await categoria.save();
 
-        /* const categoriaDeshabilitada = await Categoria.findByIdAndUpdate(id, {estado: false}, {new:true}); */
-
         res.status(200).json({
             mensaje: 'La categoría ha sido deshabilitada correctamente',
             categoria
