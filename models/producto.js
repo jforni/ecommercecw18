@@ -9,7 +9,7 @@ const ProductoSchema = Schema({
     destacado: {type:Boolean, default: false},
     stock: {type:Number, default: 0},
     fechaRegistro: {type:Date, dafault: Date.now},
-    /* usuario: {type: Schema.Types.ObjectId, ref:'Usuario', required: true}, */
+    usuario: {type: Schema.Types.ObjectId, ref:'Usuario', required: true},
     categoria: {type: Schema.Types.ObjectId, ref:'Categoria', required: true}
 });
 

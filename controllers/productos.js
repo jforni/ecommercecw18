@@ -12,7 +12,7 @@ const productosGet = async (req=request, res=response) => {
         Producto.find(query)
             .skip(desde)
             .limit(limite)
-            /* .populate('Usuario', 'correo') */
+            .populate('usuario', 'correo')
             .populate('categoria', 'nombre'),
     ])
 
@@ -27,7 +27,7 @@ const productoGetID = async (req=request, res=response) => {
     const {id} = req.params;
 
     const producto = await Producto.findById(id)
-        /* .populate('usuario', 'correo') */
+        .populate('usuario', 'correo')
         .populate('categoria', 'nombre');
 
     res.json({
@@ -62,7 +62,7 @@ const productoPost = async (req=request, res=response) =>{
     }
 
     //Generar la data que vamos a guardar en la BD
-    const data = {nombre, categoria, precio, descripcion, img: imgId, stock/* , usuario: req.usuario._id */ }
+    const data = {nombre, categoria, precio, descripcion, img: imgId, stock, usuario: req.usuario._id }
 
     const producto = new Producto(data);
 
@@ -79,7 +79,7 @@ const productoPut = async (req=request, res=response) => {
     const {id} = req.params;
     const { precio, categoria, descripcion, destacado, img, stock} = req.body;
 
-    /* const usuario = req.usuario_id; */
+    const usuario = req.usuario_id;
 
     //Borrar la imagen anterior
     if(img){
@@ -105,7 +105,7 @@ const productoPut = async (req=request, res=response) => {
     const imgId = await imagenNueva(img);
 
     let data = {
-        precio, descripcion, categoria, destacado, stock, img:imgId, /* usuario */
+        precio, descripcion, categoria, destacado, stock, img:imgId, usuario
     };
 
     //Si viene el nombre del producto

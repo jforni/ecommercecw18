@@ -11,7 +11,7 @@ const categoriasGet = async (req=request, res=response) => {
         Categoria.find(query)
             .skip(desde)
             .limit(limite)
-            /* .populate('Usuario', 'correo') */
+            .populate('Usuario', 'correo')
     ])
 
     res.json({
@@ -24,7 +24,7 @@ const categoriasGet = async (req=request, res=response) => {
 const categoriaGet = async (req=request, res=response) => {
     const {id} = req.params;
 
-    const categoria = await Categoria.findById(id)/* .populate('Usuario', 'nombre apellido correo') */;
+    const categoria = await Categoria.findById(id).populate('Usuario', 'nombre apellido correo');
 
     res.json({
         mensaje: 'Categoría obtenida según pedido del usuario',
@@ -47,7 +47,7 @@ const categoriaPost = async (req=request, res=response) => {
     //Generar la data a guardar en la Base de Datos
     const data ={
         nombre, 
-        /* usuario: req.usuario._id */
+        usuario: req.usuario._id
     }
 
     const categoria = new Categoria(data);
@@ -65,9 +65,9 @@ const categoriaPost = async (req=request, res=response) => {
 const categoriaPut = async (req=request, res=response) => {
     const {id} = req.params;
     const nombre = req.body.nombre.toUpperCase();
-    /* const usuario = req.usuario._id */
+    const usuario = req.usuario._id
 
-    const data = {nombre /* , usuario */};
+    const data = {nombre, usuario};
 
     const categoria = await Categoria.findByIdAndUpdate(id, data, {new:true});
 

@@ -21,7 +21,7 @@ const esRolValido = async (rol) => {
 
 //Validar si el usuario existe en la BD
 const usuarioExiste = async (id) => {
-    const existeUsuario = await Usuario.findOne(id);
+    const existeUsuario = await Usuario.findById(id);
     if(!existeUsuario){
         throw new Error(`El id ${id} no corresponde a ningún usuario registrado!`);
     }
@@ -29,7 +29,7 @@ const usuarioExiste = async (id) => {
 
 //Validar si la categoria existe en la BD
 const categoriaExiste = async (id) => {
-    const existeCategoria = await Categoria.findOne(id);
+    const existeCategoria = await Categoria.findById(id);
     if(!existeCategoria){
         throw new Error(`El id ${id} no corresponde a ninguna categoría registrada!`);
     };
@@ -37,7 +37,7 @@ const categoriaExiste = async (id) => {
 
 //Validar si el producto existe en la BD
 const productoExiste = async (id) => {
-    const existeProducto = await Producto.findOne(id);
+    const existeProducto = await Producto.findById(id);
     if(!existeProducto){
         throw new Error(`El id ${id} no corresponde a ningún producto registrado!`);
     };
