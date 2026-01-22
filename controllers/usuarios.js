@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuario');
 
 const usuariosGet = async (req = request, res = response) => {
-    const { desde = 0, limite = 5 } = req.query;
+    const { desde = 0, limite = 10 } = req.query;
     const query = { estado: true };
 
     const [total, usuarios] = await Promise.all([
@@ -91,13 +91,6 @@ const usuarioInhabilitado = async (req = request, res = response) => {
             mensaje: `El usuario fue ${usuario.estado ? "habilitado" : "deshabilitado"} correctamente`,
             usuario
         });
-
-        /* const usuarioDeshabilitado = await Usuario.findByIdAndUpdate(id, {estado: true}, { new: true });
-
-            res.status(200).json({
-                mensaje: 'El usuario ha sido deshabilitado correctamente',
-                usuarioDeshabilitado
-            }) */
 
     } catch (error) {
         res.status(500).json({
